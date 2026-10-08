@@ -1,4 +1,4 @@
-use std::collections::{BTreeMap, HashMap, btree_map, hash_map::Entry};
+use std::collections::{BTreeMap, HashMap, btree_map, hash_map};
 use wgsl_parse::{SyntaxNode, syntax::*};
 
 use crate::{
@@ -92,13 +92,13 @@ impl UsedItems {
         let entry = self.used_items.entry(path.clone()).or_default();
 
         match entry.entry(ident) {
-            Entry::Occupied(mut entry) => {
+            hash_map::Entry::Occupied(mut entry) => {
                 if *entry.get() < visibility {
                     entry.insert(visibility);
                 }
                 false
             }
-            Entry::Vacant(entry) => {
+            hash_map::Entry::Vacant(entry) => {
                 entry.insert(visibility);
                 true
             }
